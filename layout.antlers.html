@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="{{ $site:short_locale }}" class="antialiased">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ meta_title ?? title ?? seo:site_name }}</title>
+    <meta name="description" content="{{ meta_description ?? intro | strip_tags | entities ?? description_text ?? excerpt ?? seo:site_description }}">
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Spline+Sans:wght@400;500;700">
+    {{ if seo_noindex }}
+        <meta name="robots" content="noindex,nofollow">
+    {{ /if }}
+
+    {{ if is_homepage }}
+        <link rel="canonical" href="{{ config:app:url }}" />
+    {{ else }}
+        <link rel="canonical" href="{{ config:app:url }}{{ url }}" />
+    {{ /if }}
+
+    {{ partial:schema }}
+    {{ vite src="resources/js/app.js|resources/css/app.css" }}
+    {{ partial:personality }}
+
+    <!-- Use Spline Sans and Noto Sans for design match -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans:wght@400;500;700;900&amp;family=Spline+Sans:wght@400;500;700"
+    />
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans:wght@400;500;700;900&amp;family=Spline+Sans:wght@400;500;700">
+    </noscript>
+
+    <!-- Preload font files for faster load -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/splinesans/v14/q5uCsoe5IOB2-pX5lgG7xk5lAA.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://fonts.gstatic.com/s/notosans/v27/o-0IIpQlx3QUlC5A4PNb4j5Ba_2c7A.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+    <meta property="og:title" content="{{ meta_title ?? title ?? seo:site_name }}">
+    <meta property="og:description" content="{{ meta_description ?? intro | strip_tags | entities ?? description_text ?? excerpt ?? seo:site_description }}">
+    <meta property="og:type" content="{{ is_homepage ? 'website' : 'article' }}">
+    <meta property="og:url" content="{{ url }}">
+    <meta property="og:site_name" content="{{ seo:site_name }}">
+    {{ if og_image }}
+    <meta property="og:image" content="{{ glide:og_image width='1200' height='630' fit='crop_focal' }}">
+    {{ elseif hero_image }}
+    <meta property="og:image" content="{{ glide:hero_image width='1200' height='630' fit='crop_focal' }}">
+    {{ elseif seo:default_og_image }}
+    <meta property="og:image" content="{{ glide:seo:default_og_image width='1200' height='630' fit='crop_focal' }}">
+    {{ /if }}
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ meta_title ?? title ?? seo:site_name }}">
+    <meta name="twitter:description" content="{{ meta_description ?? intro | strip_tags | entities ?? description_text ?? excerpt ?? seo:site_description }}">
+    {{ if og_image }}
+    <meta name="twitter:image" content="{{ glide:og_image width='1200' height='630' fit='crop_focal' }}">
+    {{ elseif hero_image }}
+    <meta name="twitter:image" content="{{ glide:hero_image width='1200' height='630' fit='crop_focal' }}">
+    {{ elseif seo:default_twitter_image }}
+    <meta name="twitter:image" content="{{ glide:seo:default_twitter_image width='1200' height='630' fit='crop_focal' }}">
+    {{ /if }}
+    <meta name="twitter:url" content="{{ url }}">
+
+
+    <!-- Dark mode script - force dark by default for this design -->
+    <script>
+        // Always use dark class for this design
+        document.documentElement.classList.add('dark');
+    </script>
+</head>
+<body class="bg-[#111318] text-white font-sans leading-normal transition-colors duration-400 personality-{{ $settings:personality }}">
+    <div class="relative flex size-full min-h-screen flex-col bg-[#111318] group/design-root overflow-x-hidden" style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+            {{ partial:components/header }}
+            <main class="py-12 lg:py-20 px-4 md:px-40 flex-1 flex flex-col items-center justify-center">
+                <div class="layout-content-container w-full max-w-[960px] flex-1">
+                    {{ template_content }}
+                </div>
+            </main>
+            {{ partial:footer }}
+            {{ partial:extras }}
+        </div>
+    </div>
+</body>
+</html>

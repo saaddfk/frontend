@@ -1,0 +1,175 @@
+title: Home Page
+tabs:
+  main:
+    display: Main
+    sections:
+      - display: Hero Section
+        fields:
+          - handle: hero_title
+            field:
+              type: text
+              display: 'Hero Title'
+              instructions: 'e.g., Level Up Your Game'
+          - handle: hero_subtitle
+            field:
+              type: textarea
+              display: 'Hero Subtitle'
+          - handle: hero_button_text
+            field:
+              type: text
+              display: 'Hero Button Text'
+              default: 'Explore'
+          - handle: hero_button_link
+            field:
+              type: link
+              display: 'Hero Button Link'
+          - handle: hero_background_image
+            field:
+              type: assets
+              display: 'Hero Background Image'
+              container: assets
+              max_files: 1
+              mode: grid
+              instructions: 'Recommended size: 1920x1080px'
+
+      - display: Platform Highlights
+        fields:
+          - handle: platform_highlights_title
+            field:
+              type: text
+              display: 'Section Title'
+              default: 'Platform Highlights'
+          - handle: platforms
+            field:
+              type: replicator
+              display: 'Platforms'
+              sets:
+                platform_item:
+                  display: 'Platform Item'
+                  fields:
+                    - handle: platform_logo
+                      field:
+                        type: assets
+                        display: 'Platform Logo'
+                        container: assets
+                        max_files: 1
+                        mode: grid
+                    - handle: platform_name
+                      field:
+                        type: text
+                        display: 'Platform Name'
+                        instructions: 'e.g., Xbox, Playstation'
+                    - handle: platform_description
+                      field:
+                        type: textarea
+                        display: 'Platform Description'
+                    - handle: platform_link
+                      field:
+                        type: link
+                        display: 'Platform Link (optional)'
+
+      - display: Latest News Section ## MODIFIED SECTION ##
+        fields:
+          - handle: latest_news_title
+            field:
+              type: text
+              display: 'Section Title'
+              default: 'Latest News'
+          - handle: latest_news_count
+            field:
+              type: integer
+              display: 'Number of News Items to Display'
+              default: 2
+              instructions: 'Specify how many latest blog posts to show in this section.'
+          - handle: blog_collection
+            field:
+              type: entries
+              display: Blog Collection
+              collections:
+                - blog
+              max_items: 10
+
+      - display: Behind the Scenes Section
+        fields:
+          - handle: bts_title
+            field:
+              type: text
+              display: 'Title'
+              default: 'Behind the Scenes: Game Development Insights'
+          - handle: bts_description
+            field:
+              type: textarea
+              display: 'Description'
+          - handle: bts_image
+            field:
+              type: assets
+              display: 'Image'
+              container: assets
+              max_files: 1
+              mode: grid
+          - handle: bts_button_text
+            field:
+              type: text
+              display: 'Button Text (optional)'
+              default: 'Learn More'
+          - handle: bts_button_link
+            field:
+              type: link
+              display: 'Button Link (optional)'
+
+      - display: Community Picks Section
+        fields:
+          - handle: community_picks_title
+            field:
+              type: text
+              display: 'Section Title'
+              default: 'Community Picks'
+          - handle: community_items
+            field:
+              type: replicator
+              display: 'Community Items'
+              sets:
+                community_item:
+                  display: 'Community Item'
+                  fields:
+                    - handle: item_image
+                      field:
+                        type: assets
+                        display: 'Item Image'
+                        container: assets
+                        max_files: 1
+                        mode: grid
+                    - handle: item_title
+                      field:
+                        type: text
+                        display: 'Item Title'
+                    - handle: item_description
+                      field:
+                        type: textarea
+                        display: 'Item Description'
+                    - handle: item_link
+                      field:
+                        type: link
+                        display: 'Item Link (optional)'
+  seo:
+    display: SEO
+    sections:
+      - fields:
+          - handle: meta_title
+            field:
+              type: text
+              display: 'Meta Title'
+              instructions: 'Optimal length: 50-60 characters.'
+          - handle: meta_description
+            field:
+              type: textarea
+              character_limit: 160
+              display: 'Meta Description'
+              instructions: 'Optimal length: 150-160 characters.'
+          - handle: og_image
+            field:
+              type: assets
+              container: assets
+              max_files: 1
+              display: 'Social Share Image (Open Graph)'
+              instructions: 'Recommended size: 1200x630px.'
