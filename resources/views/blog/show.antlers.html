@@ -1,0 +1,120 @@
+{{ layout:layout }}
+
+<article class="prose lg:prose-xl dark:prose-invert mx-auto py-8 px-4">
+    {{# Display Hero Image if it exists #}}
+    {{ if hero_image }}
+        <img src="{{ glide:hero_image width='1200' height='600' fit='crop_focal' }}" alt="{{ title }}" class="mb-8 rounded-lg shadow-lg" />
+    {{ /if }}
+
+    <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-2">{{ title }}</h1>
+        <p class="text-gray-400 text-sm">
+            Published on <time datetime="{{ date format='Y-m-d' }}">{{ date format="F j, Y" }}</time>
+            {{ if author }}
+                by <span class="font-medium">{{ author:name }}</span>
+            {{ /if }}
+        </p>
+        {{ if categories }}
+            <div class="mt-2">
+                {{ categories }}
+                    <a href="{{ url }}" class="inline-block bg-gray-700 text-gray-200 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">{{ title }}</a>
+                {{ /categories }}
+            </div>
+        {{ /if }}
+    </header>
+
+    <div class="main-content">
+        {{ main_content }} {{# This is a Bard field, will render HTML #}}
+    </div>
+
+    {{# Download Section - Only if show_download_button is true #}}
+    {{ if show_download_button && download_url }}
+        <section class="download-section mt-12 p-6 bg-gray-800 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4 text-white">Download "{{ title }}"</h2>
+            {{ if download_image }}
+            <div class="mb-4">
+                <img src="{{ download_image:url }}" alt="Download Preview" class="max-w-xs rounded-md mx-auto" />
+            </div>
+            {{ /if }}
+            {{ if download_details }}
+                {{ download_details }}
+                    <h3 class="text-xl font-medium mb-2">{{ filename ?? 'Download File' }}</h3>
+                    <ul class="list-disc list-inside mb-4 text-gray-300">
+                        {{ if file_type }}<li>Type: {{ file_type }}</li>{{ /if }}
+                        {{ if file_size }}<li>Size: {{ file_size }}</li>{{ /if }}
+                        {{ if version }}<li>Version: {{ version }}</li>{{ /if }}
+                        {{ if operating_system }}<li>OS: {{ operating_system }}</li>{{ /if }}
+                        {{ if category }}<li>Category: {{ category }}</li>{{ /if }}
+                    </ul>
+                    {{ if requirements }}
+                        <h4 class="font-semibold mt-3 mb-1 text-gray-200">System Requirements:</h4>
+                        <div class="prose prose-sm dark:prose-invert text-gray-300">{{ requirements | markdown }}</div>
+                    {{ /if }}
+                {{ /download_details }}
+            {{ /if }}
+            <div class="mt-6 text-center">
+                {{ if countdown_time && countdown_time > 0 }}
+                    <p class="text-gray-300 mb-2">Your download will begin in <span id="countdown-timer">{{ countdown_time }}</span> seconds.</p>
+                    <a href="{{ download_url }}" id="download-link" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 opacity-50 cursor-not-allowed" style="pointer-events: none;">Download Now</a>
+                    <script>
+                        let countdown = {{ countdown_time }};
+                        const timerDisplay = document.getElementById('countdown-timer');
+                        const downloadLink = document.getElementById('download-link');
+                        const interval = setInterval(() => {
+                            countdown--;
+                            if (timerDisplay) timerDisplay.textContent = countdown;
+                            if (countdown <= 0) {
+                                clearInterval(interval);
+                                if (timerDisplay) timerDisplay.textContent = '0';
+                                if (downloadLink) {
+                                    downloadLink.classList.remove('opacity-50', 'cursor-not-allowed');
+                                    downloadLink.classList.add('opacity-100');
+                                    downloadLink.style.pointerEvents = 'auto';
+                                    // Optional: auto-click the link
+                                    // window.location.href = downloadLink.href;
+                                }
+                            }
+                        }, 1000);
+                    </script>
+                {{ else }}
+                    <a href="{{ download_url }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105">Download Now</a>
+                {{ /if }}
+            </div>
+        </section>
+    {{ /if }}
+
+    {{# Multi-Tool Product Section - Only if product_name exists #}}
+    {{ if product_name }}
+        <section class="multi-tool-product-section mt-12 p-6 bg-gray-800 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4 text-white">{{ product_name }}</h2>
+            {{ if product_images }}
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                    {{ product_images }}
+                        <img src="{{ glide:url width='300' height='200' fit='crop_focal' }}" alt="{{ product_name }} image" class="rounded shadow" />
+                    {{ /product_images }}
+                </div>
+            {{ /if }}
+            {{ if product_description }}
+                <p class="text-gray-300 mb-4">{{ product_description }}</p>
+            {{ /if }}
+            {{ if product_features }}
+                <h4 class="font-semibold mt-3 mb-1 text-gray-200">Features:</h4>
+                <ul class="list-disc list-inside mb-4 text-gray-300">
+                    {{ product_features }}
+                        <li>{{ feature }}</li>
+                    {{ /product_features }}
+                </ul>
+            {{ /if }}
+            {{ if price }}
+                <p class="text-xl font-bold text-green-400 mb-4">Price: ${{ price }}</p>
+            {{ /if }}
+            {{ if purchase_link }}
+                <a href="{{ purchase_link }}" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300 ease-in-out">Purchase {{ product_name }}</a>
+            {{ /if }}
+        </section>
+    {{ /if }}
+
+    {{# SEO Schema and other details can be handled by partials called from layout.antlers.html or here if needed #}}
+    {{# Example for author bio, related posts, etc. can be added below #}}
+
+</article>

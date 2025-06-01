@@ -7,7 +7,7 @@
           <div class="@[480px]:p-4">
             <div
               class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4"
-              style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("{{ hero_background_image }}");'
+              style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("{{ hero_background_image:url }}");'
             >
               <div class="flex flex-col gap-2 text-center">
                 <h1
@@ -31,10 +31,10 @@
         <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
           <div class="flex items-stretch p-4 gap-3">
             {{ platforms }}
-            <div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+            <{{ if platform_link }}a href="{{ platform_link }}"{{ else }}div{{ /if }} class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60 text-white no-underline hover:text-white">
               <div
                 class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex flex-col"
-                style='background-image: url("{{ platform_logo }}");'
+                style='background-image: url("{{ platform_logo:url }}");'
               ></div>
               <div>
                 <p class="text-white text-base font-medium leading-normal">{{ platform_name }}</p>
@@ -42,26 +42,26 @@
                   {{ platform_description }}
                 </p>
               </div>
-            </div>
+            </{{ if platform_link }}a{{ else }}div{{ /if }}>
             {{ /platforms }}
           </div>
         </div>
         <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">{{ latest_news_title }}</h2>
         {{ collection:blog limit="{{ latest_news_count }}" }}
-        <div class="p-4">
+        <a href="{{ url }}" class="block rounded-xl hover:bg-gray-800 transition-colors duration-200 p-4">
           <div class="flex items-stretch justify-between gap-4 rounded-xl">
             <div class="flex flex-col gap-1 flex-[2_2_0px]">
               <p class="text-white text-base font-bold leading-tight">{{ title }}</p>
               <p class="text-[#9ca6ba] text-sm font-normal leading-normal">
-                {{ main_content }}
+                {{ main_content | bard_text | strip_tags | safe_truncate:120 '...' }}
               </p>
             </div>
             <div
               class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
-              style='background-image: url("{{ hero_image }}");'
+              style='background-image: url("{{ hero_image:url }}");'
             ></div>
           </div>
-        </div>
+        </a>
         {{ /collection:blog }}
         <div class="p-4">
           <div class="flex items-stretch justify-between gap-4 rounded-xl">
@@ -70,20 +70,25 @@
               <p class="text-[#9ca6ba] text-sm font-normal leading-normal">
                 {{ bts_description }}
               </p>
+              {{ if bts_button_text && bts_button_link }}
+                <a href="{{ bts_button_link }}" class="inline-block mt-3 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#2469f3] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                  <span class="truncate">{{ bts_button_text }}</span>
+                </a>
+              {{ /if }}
             </div>
             <div
               class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
-              style='background-image: url("{{ bts_image }}");'
+              style='background-image: url("{{ bts_image:url }}");'
             ></div>
           </div>
         </div>
         <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">{{ community_picks_title }}</h2>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
           {{ community_items }}
-          <div class="flex flex-col gap-3 pb-3">
+          <{{ if item_link }}a href="{{ item_link }}"{{ else }}div{{ /if }} class="flex flex-col gap-3 pb-3 text-white no-underline hover:text-white">
             <div
               class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl"
-              style='background-image: url("{{ item_image }}");'
+              style='background-image: url("{{ item_image:url }}");'
             ></div>
             <div>
               <p class="text-white text-base font-medium leading-normal">{{ item_title }}</p>
@@ -91,7 +96,7 @@
                 {{ item_description }}
               </p>
             </div>
-          </div>
+          </{{ if item_link }}a{{ else }}div{{ /if }}>
           {{ /community_items }}
         </div>
       </div>

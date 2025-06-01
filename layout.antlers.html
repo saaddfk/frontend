@@ -45,22 +45,22 @@
     <meta property="og:url" content="{{ url }}">
     <meta property="og:site_name" content="{{ seo:site_name }}">
     {{ if og_image }}
-    <meta property="og:image" content="{{ glide:og_image width='1200' height='630' fit='crop_focal' }}">
+    <meta property="og:image" content="{{ glide:og_image width='1200' height='630' fit='crop_focal' absolute='true' }}">
     {{ elseif hero_image }}
-    <meta property="og:image" content="{{ glide:hero_image width='1200' height='630' fit='crop_focal' }}">
+    <meta property="og:image" content="{{ glide:hero_image width='1200' height='630' fit='crop_focal' absolute='true' }}">
     {{ elseif seo:default_og_image }}
-    <meta property="og:image" content="{{ glide:seo:default_og_image width='1200' height='630' fit='crop_focal' }}">
+    <meta property="og:image" content="{{ glide:seo:default_og_image width='1200' height='630' fit='crop_focal' absolute='true' }}">
     {{ /if }}
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ meta_title ?? title ?? seo:site_name }}">
     <meta name="twitter:description" content="{{ meta_description ?? intro | strip_tags | entities ?? description_text ?? excerpt ?? seo:site_description }}">
     {{ if og_image }}
-    <meta name="twitter:image" content="{{ glide:og_image width='1200' height='630' fit='crop_focal' }}">
+    <meta name="twitter:image" content="{{ glide:og_image width='1200' height='630' fit='crop_focal' absolute='true' }}">
     {{ elseif hero_image }}
-    <meta name="twitter:image" content="{{ glide:hero_image width='1200' height='630' fit='crop_focal' }}">
+    <meta name="twitter:image" content="{{ glide:hero_image width='1200' height='630' fit='crop_focal' absolute='true' }}">
     {{ elseif seo:default_twitter_image }}
-    <meta name="twitter:image" content="{{ glide:seo:default_twitter_image width='1200' height='630' fit='crop_focal' }}">
+    <meta name="twitter:image" content="{{ glide:seo:default_twitter_image width='1200' height='630' fit='crop_focal' absolute='true' }}">
     {{ /if }}
     <meta name="twitter:url" content="{{ url }}">
 
